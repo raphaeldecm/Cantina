@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head><meta charset="UTF-8"></head>
+<body>
+
+	<section class="layout-content" layout:fragment="corpo">
+	<nav class="navbar navbar-expand-md bg-light">
+	            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+	                <ul class="navbar-nav mr-auto">
+	                    <li class="nav-item active">
+	                        <i class="oi oi-caret-right"></i>
+	                        <span>Cadastrar Turmas</span>
+	                    </li>
+	                </ul>
+	                <a class="btn btn-primary btn-md" href="/turmas/listar" role="button">
+	                    <span class="oi oi-spreadsheet" title="Listar" aria-hidden="true"></span>
+	                    <span>Listar Turmas</span>
+	                </a>
+	            </div>
+	        </nav>
+	
+	        <div class="container" id="cadastro">
+	        
+	        	<div th:replace="fragments/alert"></div>
+	        	<div class="formCadastro form-row justify-content-center">
+	            <form th:action="${turma.id == null} ? @{/turmas/salvar} : @{/turmas/editar}" 
+	                  th:object="${turma}" method="POST">
+	                <div class="form-row">
+	                    <div class="form-group col-md-7">
+	                        <label for="nome">Turma</label>
+	                        <input type="text" class="form-control" id="nome"
+	                               placeholder="Nome Turma" autofocus="autofocus" th:field="*{nome}"/>
+	                    </div>
+	                    <div class="form-group col-md-5">
+	                        <label for="turno">Turno</label>
+	                        <select id="turno" class="form-control" th:field="*{turno}">
+	                            <option value="">Selecione</option>
+	                            <option th:each="d : ${turnos}" 
+	                                    th:value="${d.id}" th:text="${d.nome}">Administração</option>
+	                        </select>
+	                    </div>
+	                </div>
+					<input type="hidden" id="id" th:field="*{id}"/>
+		            <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+	            </form>
+	            </div>
+	        </div>
+	    </section>
+	    
+</body>
+</html>

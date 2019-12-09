@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<title>Spring-Boot Básico</title>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<link rel="icon" href="/image/favicon.png" />
+
+	<!-- Bootstrap core CSS -->
+	<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="/webjars/open-iconic/font/css/open-iconic-bootstrap.min.css" rel="stylesheet" />
+	
+	<!-- Custom styles for this template -->
+	<link href="/css/style.css" rel="stylesheet" />
+	<link href="/css/tail.select-default.min.css" rel="stylesheet">
+</head>
+<body>
+	<header th:replace="fragments/header :: cabecalho">
+		<div>header</div>
+	</header>
+	
+	<div  class="layout-main">
+		<aside>
+			<nav th:replace="fragments/sidebar :: nav-sidebar">
+				<span>menu</span>
+			</nav>
+		</aside>
+		
+		<section layout:fragment="corpo">
+			<div>conteudo principal das páginas</div>
+		</section>
+	</div>
+	
+	<footer th:replace="fragments/footer :: rodape">
+		<div>footer</div>
+	</footer>
+	
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/webjars/jquery/jquery.min.js"></script>
+	<script src="/webjars/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/js/tail.select-full.min.js"></script>
+	<script type="text/javascript">
+	
+		var url = '';
+		
+		$('button[id*="btn_"]').click(function() {
+			url = "http://localhost:8080/" + $(this).attr('id').split("_")[1];
+		});
+		
+		$('#ok_confirm').click(function() {
+			document.location.href = url;
+		});
+	    
+		$(function() {
+			$('[data-toggle="popover"]').popover();
+		});
+		
+		$(document).ready(function(){
+		    $(".navbar-toggle").click(function(){
+		        $(".sidebar").toggleClass("sidebar-open");
+		    })
+		});
+		
+		$(document).ready(function(){
+			$('#turnoAluno').change(function(){
+				if(document.getElementById("nome").value == ""){
+					alert('Peencha o campo nome.');
+					$("#turnoAluno").val("");
+				} else {
+		        	var selectedOption = $('#turnoAluno option:selected');
+		        	var nome = $("#nome");
+		        	url = "/alunos/cadastrar/"+selectedOption.val()+"/"+nome.val();
+		        	//$('#resultado').html('Turno = ' + selectedOption.val() + ', Turno ='+ selectedOption.text() + ', Nome = ' + nome.val());
+					window.location.href = url;	
+				}
+			});
+		});
+		
+		$(document).ready(function(){				
+			var sPageURL = window.location.href.split("/")[5];
+			
+			if(sPageURL != undefined){
+				$("#turnoAluno").val(sPageURL);	
+			}	
+		});
+		
+		$(document).ready(function(){
+			$('#aluno').change(function(){
+				var selectedOption = $('#aluno option:selected');
+				if(selectedOption.val() == 0){
+					$("#aluno").val(0);
+					$("#saldo").val('0,00');
+				} else {
+					url = "/compras/buscarAlunoPorId/"+selectedOption.val();
+					window.location.href = url;
+				}
+			});
+		});
+		
+		$(document).ready(function(){
+			var sPageURL = window.location.href.split("/")[5];
+			if(sPageURL != undefined){
+				$("#aluno").val(sPageURL);
+				//$('#aluno').options.select(sPageURL, "#");
+			}
+		});
+		
+		tail.select('#aluno', {
+			search: true,
+			width: 350
+		});
+		
+	</script>
+</body>
+</html>
