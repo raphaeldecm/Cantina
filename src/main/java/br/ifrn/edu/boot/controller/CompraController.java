@@ -36,6 +36,8 @@ public class CompraController {
 	@Autowired
 	private AlunoService serviceAluno;
 	
+	private BigDecimal saldoTemp;
+	
 	@GetMapping("/cadastrar")
 	public String cadastrar(Compra compra) {
 		return "/compra/cadastro";
@@ -51,11 +53,12 @@ public class CompraController {
 	public String salvar(@Valid Compra compra, BindingResult result, 
 			RedirectAttributes attr) throws BindException {
 		
-		if(compra.getValor() == null) {
-			attr.addFlashAttribute("fail", "Erro ao cadastrar compra. Campo valor");
+		if(compra.getValor() == null || compra.getAluno() == null || compra.getData() == null 
+				|| compra.getDescricao().equals("")) {
+			attr.addFlashAttribute("fail", "Erro ao cadastrar compra. Campos obrigatórios.");
 			return "redirect:/compras/cadastrar";
 		} else if(result.hasErrors()) {
-			attr.addFlashAttribute("fail", "Erro ao cadastrar compra."+result.toString());
+			attr.addFlashAttribute("fail", "Erro ao cadastrar compra.");
 			return "redirect:/compras/cadastrar";
 		} else {
 			try {
@@ -89,16 +92,28 @@ public class CompraController {
 	}
 	
 	@GetMapping("/buscarAlunoPorId/{id}")
-	public @ResponseBody ModelAndView buscarAluno(@PathVariable("id") Long id, Compra compra) {
+	public String buscarAluno(@PathVariable("id") Long id, Compra compra, ModelMap model) {
 		
 		Aluno aluno = serviceAluno.buscarPorId(id);
 		
-		ModelAndView mav = new ModelAndView("compra/cadastro");
+		model.addAttribute("aluno", aluno.getNome());
+		model.addAttribute("saldo", aluno.getSaldo().toString());
 		
-		mav.addObject("aluno", aluno);
-		
-		return mav;
+		return "/compra/cadastro";
 	}
+	
+//	@GetMapping("/buscarAlunoPorId/{id}")
+//	public @ResponseBody ModelAndView buscarAluno(@PathVariable("id") Long id, Compra compra) {
+//		
+//		Aluno aluno = serviceAluno.buscarPorId(id);
+//		
+//		ModelAndView mav = new ModelAndView("compra/cadastro");
+//		
+//		mav.addObject("aluno", aluno.getNome());
+//		mav.addObject("saldo", aluno.getSaldo());
+//		
+//		return mav;
+//	}
 	
 	@GetMapping("/editar/{id}")
 	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
@@ -106,14 +121,29 @@ public class CompraController {
 		model.addAttribute("compra", compra);
 		model.addAttribute("aluno", compra.getAluno());
 		model.addAttribute("saldo", compra.getAluno().getSaldo());
+		
+		BigDecimal saldoT = compra.getValor();
+		BigDecimal saldoA = compra.getAluno().getSaldo();
+		
+		Aluno aluno = compra.getAluno();
+		aluno.setSaldo(saldoA.add(saldoT));
+		
+		serviceAluno.editar(aluno);
+		
 		return "/compra/cadastro";
 	}
 	
 	@PostMapping("/editar")
 	public String editar(Compra compra, RedirectAttributes attr) {
+		
+		Aluno aluno = compra.getAluno();
+		aluno.setSaldo(aluno.getSaldo().subtract(compra.getValor()));
+		
+		serviceAluno.editar(aluno);
+		
 		serviceCompra.editar(compra);
 		//Enviando alerta para página com attr
-		attr.addFlashAttribute("success", "Compra editado com sucesso.");
+		attr.addFlashAttribute("success", "Compra editada com sucesso.");
 		return "redirect:/compras/cadastrar";
 	}
 	

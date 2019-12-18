@@ -112,8 +112,8 @@
 			$('#aluno').change(function(){
 				var selectedOption = $('#aluno option:selected');
 				if(selectedOption.val() == 0){
-					$("#alunoCompra").val(0);
-					$("#saldoCompra").val('0,00');
+					$("#aluno").val(0);
+					$("#saldo").val('0,00');
 				} else {
 					url = "/compras/buscarAlunoPorId/"+selectedOption.val();
 					window.location.href = url;

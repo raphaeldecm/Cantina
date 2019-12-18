@@ -139,7 +139,7 @@ public class AlunoController {
 
 		return mav;
 	}
-	
+	//Recarregar turmas após seleção de turno durante edição
 	@GetMapping(value="/editar/{alunoId}/{id}")
 	public @ResponseBody ModelAndView getTurmasEditar(@PathVariable("id") Long id, 
 			@PathVariable("alunoId") Long alunoId) {

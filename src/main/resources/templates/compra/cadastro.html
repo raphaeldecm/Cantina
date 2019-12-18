@@ -26,9 +26,9 @@
 	        <div th:replace="fragments/alert"></div>
 	        
 		        <div class="formCadastro ">
-		            <form th:action="${compra.id == null} ? @{/compras/salvar} : @{/compras/editar}"
-		             th:object="${compra}" method="POST">
-		                <div class="form-group row justify-content-center">
+		        	<form th:action="${compra.data == null} ? @{/compras/salvar} : @{/compras/editar}" 
+		        		th:object="${compra}" method="POST">
+						<div class="form-group row justify-content-center">
 							<h4 for="nome">Nome do Aluno</h4>
 		                    <div class="col-4">
 		                        <select id="aluno" class="form-control" th:field="*{aluno}">
@@ -41,7 +41,7 @@
 		                    <h4 for="saldoAluno">Saldo</h4>
 		                    <div class="col-2">
 		                        <input type="text" class="form-control" id="saldo" 
-		                        th:value="${aluno?.saldo}" data-mask="#.##0,00" data-mask-reverse="true" 
+		                        th:value="${saldo}" data-mask="#.##0,00" data-mask-reverse="true" 
 		                        name="saldo" readonly/>
 		                    </div>
 		                </div>
