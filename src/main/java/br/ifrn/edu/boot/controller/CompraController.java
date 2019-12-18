@@ -55,7 +55,7 @@ public class CompraController {
 			attr.addFlashAttribute("fail", "Erro ao cadastrar compra. Campo valor");
 			return "redirect:/compras/cadastrar";
 		} else if(result.hasErrors()) {
-			attr.addFlashAttribute("fail", "Erro ao cadastrar compra."+result.getFieldError());
+			attr.addFlashAttribute("fail", "Erro ao cadastrar compra."+result.toString());
 			return "redirect:/compras/cadastrar";
 		} else {
 			try {
@@ -64,9 +64,11 @@ public class CompraController {
 				saldoAtual = saldoAtual.subtract(compra.getValor());		
 
 				Aluno aluno = serviceAluno.buscarPorId(compra.getId());
+				
 				aluno.setSaldo(saldoAtual);
 				
 				compra.setId(null);
+				
 				serviceCompra.salvar(compra);
 				serviceAluno.editar(aluno);
 				attr.addFlashAttribute("success", "Compra cadastrada com sucesso");
@@ -100,7 +102,10 @@ public class CompraController {
 	
 	@GetMapping("/editar/{id}")
 	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
-		model.addAttribute("compra", serviceCompra.buscarPorId(id));
+		Compra compra = serviceCompra.buscarPorId(id);
+		model.addAttribute("compra", compra);
+		model.addAttribute("aluno", compra.getAluno());
+		model.addAttribute("saldo", compra.getAluno().getSaldo());
 		return "/compra/cadastro";
 	}
 	
@@ -128,12 +133,6 @@ public class CompraController {
 		serviceCompra.excluir(id);
 		model.addAttribute("success", "Compra excluída com sucesso.");
 		return listar(model);
-	}
-	
-	public Boolean atualizarSaldo(Aluno aluno, BigDecimal saldo) {
-		
-		
-		return true;
 	}
 	
 }

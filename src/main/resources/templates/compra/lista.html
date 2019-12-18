@@ -14,8 +14,8 @@
 	                        <span>Listar Compras por Aluno</span>
 	                    </li>
 	                </ul>
-	                <a class="btn btn-primary btn-md" href="/compra/listar" role="button">
-	                    <span class="oi oi-spreadsheet" title="Listar" aria-hidden="true"></span>
+	                <a class="btn btn-primary btn-md" href="/compras/cadastrar" role="button">
+	                    <span class="oi oi-plus" title="Cadastro" aria-hidden="true"></span>
 	                    <span>Cadastrar Compra</span>
 	                </a>
 	            </div>
@@ -43,7 +43,7 @@
 		                        <td th:text="${d.aluno.nome}">nome</td>
 		                        <td th:text="${d.aluno.turma.nome}">turma</td>
 		                        <td th:text="${d.aluno.turno.nome}">turno</td>
-		                        <td th:text="'R$ ' + ${d.valor}">turno</td>
+		                        <td th:text="|R$ ${{d.valor}}|">turno</td>
 		                        <td colspan="2">
 		                            <a class="btn btn-info btn-sm" th:href="@{/compras/editar/{id} (id=${d.id}) }" role="button">
 		                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>

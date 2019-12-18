@@ -57,7 +57,7 @@ public class AlunoController {
 		if(aluno.getSaldo() == null) {
 			aluno.setSaldo(BigDecimal.ZERO);
 		}
-		if(result.hasErrors()) {
+		if(result.hasErrors() || aluno.getNome().equals("") || aluno.getTurma() == null || aluno.getTurno() == null) {
 			attr.addFlashAttribute("fail", "Aluno não cadastrado. Todos os campos deste formulário são obrigatórios.");
 			return "redirect:/alunos/cadastrar";
 		} else {
@@ -75,11 +75,11 @@ public class AlunoController {
 		}
 	}
 	
-	@ModelAttribute("turmas")
-	public List<Turma> listaDeTurmas(){
-		//return departamentoService.buscarTodos();
-		return serviceTurma.buscarTodos();
-	}
+//	@ModelAttribute("turmas")
+//	public List<Turma> listaDeTurmas(){
+//		//return departamentoService.buscarTodos();
+//		return serviceTurma.buscarTodos();
+//	}
 		
 	@ModelAttribute("turnos")
 	public List<Turno> listaDeTurnos(){
@@ -87,16 +87,25 @@ public class AlunoController {
 		return serviceTurno.buscarTodos();
 	}
 	
-	@GetMapping("/editar/{id}")
-	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
-		model.addAttribute("aluno", serviceAluno.buscarPorId(id));
+	@GetMapping("/editar/{id}/{turnoId}/{nomeAluno}")
+	public String preEditar(@PathVariable("id") Long id, @PathVariable("turnoId") Long alunoId, 
+			@PathVariable("nomeAluno") String nomeAluno, ModelMap model) {
+		Aluno aluno = serviceAluno.buscarPorId(id);
+		List<Turno> turnos = serviceTurno.buscarTodos();
+		
+		model.addAttribute("aluno", aluno);
+		model.addAttribute("turnos", turnos);
+		model.addAttribute("turno", aluno.getTurno().getId());
+		model.addAttribute("turmas", aluno.getTurma());
 		return "/aluno/cadastro";
 	}
-	
+		
 	@PostMapping("/editar")
 	public String editar(Aluno aluno, RedirectAttributes attr) {
 		serviceAluno.editar(aluno);
-		//Enviando alerta para página com attr
+		if(aluno.getSaldo() == null) {
+			aluno.setSaldo(BigDecimal.ZERO);
+		}
 		attr.addFlashAttribute("success", "Aluno editado com sucesso.");
 		return "redirect:/alunos/cadastrar";
 	}
@@ -115,7 +124,7 @@ public class AlunoController {
 	}
 	
 	@GetMapping(value="/cadastrar/{id}/{nome}")
-	public @ResponseBody ModelAndView getTurmas(@PathVariable("id") Long id, @PathVariable("nome") String nome) {
+	public @ResponseBody ModelAndView getTurmasCadastrar(@PathVariable("id") Long id, @PathVariable("nome") String nome) {
 		
 		Turno turno = serviceTurno.buscarPorId(id);
 		List<Turma> turmas = serviceTurma.buscarTodosPorTurno(turno);
@@ -124,10 +133,27 @@ public class AlunoController {
 		
 		Aluno aluno = new Aluno();
 		aluno.setNome(nome);
-//		mav.addObject("selecionado", turno.getId());
-		mav.addObject("turmasLista", turmas);
+		mav.addObject("turmas", turmas);
+		mav.addObject("aluno", aluno);
+		mav.addObject("saldo", aluno.getSaldo());
+
+		return mav;
+	}
+	
+	@GetMapping(value="/editar/{alunoId}/{id}")
+	public @ResponseBody ModelAndView getTurmasEditar(@PathVariable("id") Long id, 
+			@PathVariable("alunoId") Long alunoId) {
+		
+		Turno turno = serviceTurno.buscarPorId(id);
+		List<Turma> turmas = serviceTurma.buscarTodosPorTurno(turno);
+		
+		ModelAndView mav = new ModelAndView("aluno/cadastro");
+		
+		Aluno aluno = serviceAluno.buscarPorId(alunoId);
+		
+		mav.addObject("turmas", turmas);
 		mav.addObject("aluno", aluno);
 
 		return mav;
-	}	
+	}
 }

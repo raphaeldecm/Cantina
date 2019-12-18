@@ -44,7 +44,7 @@
 		                        <td th:text="${d.turno.nome}">turno</td>
 		                        <td th:text="'R$ ' + ${d.saldo}">turno</td>
 		                        <td colspan="2">
-		                            <a class="btn btn-info btn-sm" th:href="@{/alunos/editar/{id} (id=${d.id}) }" role="button">
+		                            <a class="btn btn-info btn-sm" th:href="@{/alunos/editar/{id}/{turnoId}/{nomeAluno} (id=${d.id},turnoId=${d.turno.id},nomeAluno=${d.nome}) }" role="button">
 		                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
 		                            </a>
 		                            <button th:id="${ 'btn_alunos/excluir/' + d.id}" type="button" class="btn btn-danger btn-sm"

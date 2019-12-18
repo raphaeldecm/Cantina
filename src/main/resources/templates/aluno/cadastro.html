@@ -25,7 +25,7 @@
 	        	<div th:replace="fragments/alert"></div>
 	        	
 	        	<div class="formCadastro form-row justify-content-center">
-	            
+	                  
 	            <form th:action="${aluno.id == null} ? @{/alunos/salvar} : @{/alunos/editar}" 
 	                  th:object="${aluno}" method="POST">
 	                <div class="form-row">
@@ -37,24 +37,23 @@
 	                    </div>
 	                    <div class="form-group col-md-4">
 	                        <label for="turno">Turno</label>
-	                        <select id="turnoAluno" class="form-control" th:field="*{turno}">
+	                        <select id="turno" class="form-control" th:field="*{turno}">
 	                            <option value="">Selecione</option>
 	                            <option th:each="d : ${turnos}" 
-	                                    th:value="${d.id}" 
-	                                    th:text="${d.nome}">Administração</option>
+	                                    th:value="${d.id}" th:text="${d.nome}">Administração</option>
 	                        </select>
 	                    </div>
 	                    <div class="form-group col-md-4">
 	                        <label for="turma">Turma</label>
 	                        <select id="turma" class="form-control" th:field="*{turma}">
 	                            <option value="">Selecione</option>
-	                            <option th:each="d : ${turmasLista}" 
+	                            <option th:each="d : ${turmas}" 
 	                                    th:value="${d.id}" th:text="${d.nome}">Administração</option>
 	                        </select>
 	                    </div>
 	                    <div class="form-group col-md-2">
 	                        <label for="saldo">Saldo</label>
-	                        <input type="text" class="form-control" id="saldo" value="0.00"
+	                        <input type="text" class="form-control" id="saldo"
 	                               data-mask="#.##0,00" data-mask-reverse="true" placeholder="0.00" 
 	                               th:field="*{saldo}"/>
 	                    </div>

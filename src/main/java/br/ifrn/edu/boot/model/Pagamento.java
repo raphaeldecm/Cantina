@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "PAGAMENTOS")
@@ -17,11 +20,12 @@ public class Pagamento extends AbstractEntity<Long>{
 	@Column(name = "descricao", nullable = false)
 	private String descricao;
 	
-	@Column(name = "valor_pagamento", nullable = false, columnDefinition = "DECIMAL(7,2) DEFAULT 0.00")
+	@NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
+	@Column(name = "valor", nullable = false, columnDefinition = "DECIMAL(7,2) DEFAULT 0.00")
 	private BigDecimal valor;
 	
 	@Column(name= "data_pagamento", nullable = false, columnDefinition = "DATE")
-	private Date dataPagamento;
+	private Date data;
 	
 	@ManyToOne
 	@JoinColumn(name = "aluno_id_fk")
@@ -43,12 +47,12 @@ public class Pagamento extends AbstractEntity<Long>{
 		this.valor = valor;
 	}
 
-	public Date getDataPagamento() {
-		return dataPagamento;
+	public Date getData() {
+		return data;
 	}
 
-	public void setDataPagamento(Date dataPagamento) {
-		this.dataPagamento = dataPagamento;
+	public void setData(Date data) {
+		this.data = data;
 	}
 
 	public Aluno getAluno() {

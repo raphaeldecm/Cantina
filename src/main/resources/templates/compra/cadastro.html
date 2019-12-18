@@ -24,9 +24,10 @@
 	        <div class="container" id="cadastro">
 	        
 	        <div th:replace="fragments/alert"></div>
+	        
 		        <div class="formCadastro ">
-		            
-		            <form th:action="@{/compras/salvar}" th:object="${compra}" method="POST">
+		            <form th:action="${compra.id == null} ? @{/compras/salvar} : @{/compras/editar}"
+		             th:object="${compra}" method="POST">
 		                <div class="form-group row justify-content-center">
 							<h4 for="nome">Nome do Aluno</h4>
 		                    <div class="col-4">
@@ -36,18 +37,12 @@
 		                                    th:value="${d.id}" 
 		                                    th:text="${d.nome}+' - '+${d.turma.nome}">Administração</option>
 		                        </select>
-		                        <div class="invalid-feedback">
-		
-		                        </div>
 		                    </div>
 		                    <h4 for="saldoAluno">Saldo</h4>
 		                    <div class="col-2">
 		                        <input type="text" class="form-control" id="saldo" 
 		                        th:value="${aluno?.saldo}" data-mask="#.##0,00" data-mask-reverse="true" 
 		                        name="saldo" readonly/>
-		                        <div class="invalid-feedback">
-		
-		                        </div>
 		                    </div>
 		                </div>
 		                <div class="row"><br/><br/></div>
@@ -55,9 +50,6 @@
 		                    <div class="col-6">
 		                        <label for="data">Data da Compra</label>
 		                        <input type="date" class="form-control" id="data" th:field="*{data}" />
-		                        <div class="invalid-feedback">
-		
-		                        </div>
 		                    </div>
 		                    <div class="col-2">
 		                        <label for="valorCompra">Valor da Compra</label>
@@ -80,20 +72,13 @@
 							    <label for="observacao">Observação</label>
 							    <textarea class="form-control" id="observacao" 
 							    rows="3" th:field="*{observacao}"></textarea>
-								<div class="invalid-feedback">
-		
-		                        </div>
 							</div>
 		                </div>
-		                <br>
-		                <div class="row justify-content-center">
 			                <input type="hidden" id="id" th:field="*{id}"/>
 			                <button type="submit" class="btn btn-primary btn-sm">Cadastrar</button>
-		                </div>
 		            </form>
 				</div>
 	        </div>
-	
 	</section>
 </body>
 </html>
