@@ -31,6 +31,17 @@ public class Pagamento extends AbstractEntity<Long>{
 	@JoinColumn(name = "aluno_id_fk")
 	private Aluno aluno;
 
+	@Column(name = "situacao", nullable = false, columnDefinition="tinyint(1) default 1")
+	private boolean situacao;
+	
+	public boolean getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(boolean situacao) {
+		this.situacao = situacao;
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}

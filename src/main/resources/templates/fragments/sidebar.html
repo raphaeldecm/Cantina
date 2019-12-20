@@ -2,67 +2,54 @@
 <html>
 <head><meta charset="UTF-8"></head>
 <body>
-			<nav class="sidebar sidebar-open" th:fragment="nav-sidebar">
+
+	<nav class="sidebar sidebar-open" th:fragment="nav-sidebar">
 				<ul class="nav nav-pills">
 					<li class="nav-item"><a class="nav-link " href="/"> <i
-							class="oi oi-home"></i> <span>Home</span>
-					</a></li>
-				</ul>
-<!-- 
-				<ul class="nav nav-pills">
-					<li class="nav-item"><span class="nav-link active" >Compras</span></li>
-					<li class="nav-item"><a class="nav-link" 
-						href="/cargos/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar </span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link" 
-						href="/cargos/listar"> <i
-							class="oi oi-spreadsheet"></i> <span>Listar </span>
-					</a></li>
-				</ul>
-
-				<ul class="nav nav-pills">
-					<li class="nav-item"><span class="nav-link active">Pagamentos</span></li>
-					<li class="nav-item"><a class="nav-link" 
-						href="/funcionarios/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar </span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link" 
-						href="/funcionarios/listar"> <i class="oi oi-spreadsheet"></i> <span>Listar </span>
-					</a></li>
-				</ul>
- -->				
-				<ul class="nav nav-pills">
-					<li class="nav-item"><span class="nav-link active" >Alunos</span></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/alunos/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/alunos/listar"> <i class="oi oi-spreadsheet"></i> <span>Listar Alunos</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/compras/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar Compra</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/compras/listar"> <i class="oi oi-spreadsheet"></i> <span>Listar Compras</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/pagamentos/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar Pagamento</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/pagamentos/listar"> <i class="oi oi-spreadsheet"></i> <span>Listar Pagamentos</span>
+							class="material-icons">home</i> <span> Principal </span>
 					</a></li>
 				</ul>
 				
 				<ul class="nav nav-pills">
-					<li class="nav-item"><span class="nav-link active">Turmas</span></li>
+					<li class="nav-item"><span class="nav-link active"><i class="small material-icons">add_shopping_cart</i> Compras </span></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/compras/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/compras/listar"> <i class="oi oi-list"></i> <span>Listar</span>
+					</a></li>
+				</ul>
+				<ul class="nav nav-pills">
+					<li class="nav-item"><span class="nav-link active"> <i class="material-icons">attach_money</i> Pagamentos</span></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/pagamentos/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/pagamentos/listar"> <i class="oi oi-list"></i> <span>Listar</span>
+					</a></li>
+				</ul>
+				<ul class="nav nav-pills">
+					<li class="nav-item"><span class="nav-link active" > <i class="material-icons">person_add</i> Alunos</span></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/alunos/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/alunos/listar"> <i class="oi oi-list"></i> <span>Listar</span>
+					</a></li>
+				</ul>
+				<ul class="nav nav-pills">
+					<li class="nav-item"><span class="nav-link active"> <i class="material-icons">people</i> Turmas</span></li>
 					<li class="nav-item"><a class="nav-link" 
 						href="/turmas/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar </span>
 					</a></li>
 					<li class="nav-item"><a class="nav-link" 
-						href="/turmas/listar"> <i class="oi oi-spreadsheet"></i> <span>Listar </span>
+						href="/turmas/listar"> <i class="oi oi-list"></i> <span>Listar </span>
 					</a></li>
 				</ul>
+				
 				<ul class="nav nav-pills">
-					<li class="nav-item"><span class="nav-link active">Turnos</span></li>
+					<li class="nav-item">
+					<span class="nav-link active" href="#"> <i class="material-icons">access_time</i> Turnos</span></li>
 					<li class="nav-item"><a class="nav-link" 
 						href="/turnos/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar </span>
 					</a></li>
@@ -71,5 +58,90 @@
 					</a></li>
 				</ul>
 			</nav>
+
+
+
+<!--			<nav class="sidebar sidebar-open" th:fragment="nav-sidebar">
+				<ul class="nav nav-pills">
+					<li class="nav-item"><a class="nav-link " href="/"> <i
+							class="oi oi-home"></i> <span>Home</span>
+					</a></li>
+				</ul>
+				
+				<ul class="nav nav-pills">				
+
+					<li class="nav-item" data-toggle="collapse" data-target="#menuCompra" aria-controls="menuCompra" 
+				aria-expanded="false" aria-label="Toggle navigation">
+	                	<span class="nav-link active"><i class="oi oi-cart"></i> Compras </span>
+					</li>
+					
+					<div class="panel-collapse collapse" id="menuCompra">
+						
+						<li class="nav-item"><a class="nav-link"
+							href="/compras/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar</span>
+						</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="/compras/listar"> <i class="oi oi-list"></i> <span>Listar</span>
+						</a></li>
+						
+					</div>
+				</ul>
+				<ul class="nav nav-pills">
+					<li class="nav-item" data-toggle="collapse" data-target="#menuPagamento" aria-controls="menuPagamento" 
+				aria-expanded="false" aria-label="Toggle navigation">
+						<span class="nav-link active"> <i class="oi oi-credit-card"></i> Pagamentos</span>
+					</li>
+					
+					<div class="collapse" id="menuPagamento">
+						<li class="nav-item"><a class="nav-link"
+							href="/pagamentos/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar</span>
+						</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="/pagamentos/listar"> <i class="oi oi-list"></i> <span>Listar</span>
+						</a></li>
+					</div>
+				</ul>
+				<ul class="nav nav-pills">
+					<li class="nav-item" data-toggle="collapse" data-target="#menuAluno" aria-controls="menuAluno" 
+				aria-expanded="false" aria-label="Toggle navigation">
+					<span class="nav-link active" > <i class="oi oi-person"></i> Alunos</span></li>
+					<div class="collapse" id="menuAluno">
+					<li class="nav-item"><a class="nav-link"
+						href="/alunos/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/alunos/listar"> <i class="oi oi-list"></i> <span>Listar Alunos</span>
+					</a></li>
+					</div>
+				</ul>
+				<ul class="nav nav-pills">
+					<li class="nav-item" data-toggle="collapse" data-target="#menuTurma" aria-controls="menuTurma" 
+				aria-expanded="false" aria-label="Toggle navigation">
+					<span class="nav-link active"> <i class="oi oi-people"></i> Turmas</span></li>
+					<div class="collapse" id="menuTurma">
+					<li class="nav-item"><a class="nav-link" 
+						href="/turmas/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar </span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" 
+						href="/turmas/listar"> <i class="oi oi-list"></i> <span>Listar </span>
+					</a></li>
+					</div>
+				</ul>
+				
+				<ul class="nav nav-pills">
+					<li class="nav-item" data-toggle="collapse" data-target="#menuTurno" aria-controls="menuTurno" 
+				aria-expanded="false" aria-label="Toggle navigation">
+					<span class="nav-link active" href="#"> <i class="oi oi-clock"></i> Turnos</span></li>
+					<div class="collapse" id="menuTurno">
+					<li class="nav-item"><a class="nav-link" 
+						href="/turnos/cadastrar"> <i class="oi oi-plus"></i> <span>Cadastrar </span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" 
+						href="/turnos/listar"> <i class="oi oi-spreadsheet"></i> <span>Listar </span>
+					</a></li>
+					</div>
+				</ul>
+			</nav>
+			-->
 </body>
 </html>

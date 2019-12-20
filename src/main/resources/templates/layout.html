@@ -48,6 +48,8 @@
 	<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/js/tail.select-full.min.js"></script>
+	<script src="/js/jquery.maskMoney.min.js" type="text/javascript"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script type="text/javascript">
 	
 		var url = '';
@@ -71,25 +73,38 @@
 		});
 		
 		$(document).ready(function(){
+			$("#saldo").maskMoney({
+				prefix:'R$ ', 
+				allowNegative: true, 
+				thousands:'.', 
+				decimal:',', 
+				affixesStay: false
+			});
+			$("#valor").maskMoney({
+				prefix:'R$ ', 
+				allowNegative: true, 
+				thousands:'.', 
+				decimal:',', 
+				affixesStay: false
+			});
+		});
+		
+		$(document).ready(function(){
 			$('#turno').change(function(){
 				var sPageURL0 = window.location.href.split("/")[3];
 				var sPageURL1 = window.location.href.split("/")[4];
-				
-					//if(document.getElementById("nome").value == ""){
-					//	alert('Peencha o campo nome.');
-					//	$("#turno").val("");
-					//} else {
-			        	var selectedOption = $('#turno option:selected');
-			        	var nome = $("#nome");
-			        	var saldo = $("#saldo");
-			        	var alunoId = $("#id");
-			        	if((sPageURL0 == "alunos" && sPageURL1 == "cadastrar")){
-			        		url = "/alunos/cadastrar/"+selectedOption.val()+"/"+nome.val();
-			        	} else if ((sPageURL0 == "alunos" && sPageURL1 == "editar")){
-			        		url = "/alunos/editar/"+alunoId.val()+"/"+selectedOption.val();	
-			        	}
-						window.location.href = url;	
-					//}
+
+				var selectedOption = $('#turno option:selected');
+	        	var nome = $("#nome");
+	        	var saldo = $("#saldo");
+	        	var alunoId = $("#id");
+	        	
+	        	if((sPageURL0 == "alunos" && sPageURL1 == "cadastrar")){
+	        		url = "/alunos/cadastrar/"+selectedOption.val()+"/"+nome.val();
+	        	} else if ((sPageURL0 == "alunos" && sPageURL1 == "editar")){
+	        		url = "/alunos/editar/"+alunoId.val()+"/"+selectedOption.val();	
+	        	}
+				window.location.href = url;	
 			});
 		});
 		
@@ -110,13 +125,20 @@
 		
 		$(document).ready(function(){
 			$('#aluno').change(function(){
+				var op = window.location.href.split("/")[3];
 				var selectedOption = $('#aluno option:selected');
 				if(selectedOption.val() == 0){
 					$("#aluno").val(0);
 					$("#saldo").val('0,00');
 				} else {
-					url = "/compras/buscarAlunoPorId/"+selectedOption.val();
-					window.location.href = url;
+					if(op == "compras"){
+						url = "/compras/buscarAlunoPorId/"+selectedOption.val();
+						window.location.href = url;	
+					}
+					if(op == "pagamentos"){
+						url = "/pagamentos/buscarAlunoPorId/"+selectedOption.val();
+						window.location.href = url;	
+					}
 				}
 			});
 		});
@@ -132,31 +154,31 @@
 			}
 		});
 		
-//		tail.select('#alunoCompra', {
+//		tail.select('#aluno', {
 //			search: true,
 //			width: 350
 //		});
 		
-		$(document).ready(function(){
-			$('#alunoPagamento').change(function(){
-				var selectedOption = $('#alunoPagamento option:selected');
-				if(selectedOption.val() == 0){
-					$("#alunoPagamento").val(0);
-					$("#saldoPagamento").val('0,00');
-				} else {
-					url = "/pagamentos/buscarAlunoPorId/"+selectedOption.val();
-					window.location.href = url;
-				}
-			});
-		});
+//		$(document).ready(function(){
+//			$('#alunoP').change(function(){
+//				var selectedOption = $('#aluno option:selected');
+//				if(selectedOption.val() == 0){
+//					$("#aluno").val(0);
+//					$("#saldo").val('0,00');
+//				} else {
+//					url = "/pagamentos/buscarAlunoPorId/"+selectedOption.val();
+//					window.location.href = url;
+//				}
+//			});
+//		});
 		
-		$(document).ready(function(){
-			var sPageURL = window.location.href.split("/")[5];
-			if(sPageURL != undefined){
-				$("#alunoPagamento").val(sPageURL);
-				//$('#aluno').options.select(sPageURL, "#");
-			}
-		});
+//		$(document).ready(function(){
+//			var sPageURL = window.location.href.split("/")[5];
+//			if(sPageURL != undefined){
+//				$("#aluno").val(sPageURL);
+//				//$('#aluno').options.select(sPageURL, "#");
+//			}
+//		});
 		
 //		tail.select('#alunoPagamento', {
 //			search: true,

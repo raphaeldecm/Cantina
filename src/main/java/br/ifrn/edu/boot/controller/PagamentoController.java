@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ifrn.edu.boot.model.Aluno;
-import br.ifrn.edu.boot.model.Compra;
 import br.ifrn.edu.boot.model.Pagamento;
 import br.ifrn.edu.boot.service.AlunoService;
 import br.ifrn.edu.boot.service.PagamentoService;
@@ -36,6 +35,9 @@ public class PagamentoController {
 	
 	@Autowired
 	private AlunoService serviceAluno;
+	
+	private BigDecimal saldoAntigo;
+	private BigDecimal pagamentoAntigo;
 	
 	@GetMapping("/cadastrar")
 	public String cadastrar(Pagamento pagamento) {
@@ -54,15 +56,14 @@ public class PagamentoController {
 	}
 	
 	@GetMapping("/buscarAlunoPorId/{id}")
-	public @ResponseBody ModelAndView buscarAluno(@PathVariable("id") Long id, Pagamento pagamento) {
+	public String buscarAluno(@PathVariable("id") Long id, Pagamento pagamento, ModelMap model) {
 		
 		Aluno aluno = serviceAluno.buscarPorId(id);
 		
-		ModelAndView mav = new ModelAndView("pagamento/cadastro");
+		model.addAttribute("aluno", aluno);
+		model.addAttribute("saldo", aluno.getSaldo());
 		
-		mav.addObject("aluno", aluno);
-		
-		return mav;
+		return "/pagamento/cadastro";
 	}
 	
 	@PostMapping("/salvar")
@@ -85,10 +86,12 @@ public class PagamentoController {
 				Aluno aluno = serviceAluno.buscarPorId(pagamento.getId());
 				
 				aluno.setSaldo(saldoAtual);
-				
+				System.out.println(saldoAtual+"TESTE");
 				pagamento.setId(null);
+				
 				servicePagamento.salvar(pagamento);
 				serviceAluno.editar(aluno);
+				
 				attr.addFlashAttribute("success", "Pagamento cadastrada com sucesso");
 				return "redirect:/pagamentos/cadastrar";
 			} catch (ConstraintViolationException ex){
@@ -103,12 +106,30 @@ public class PagamentoController {
 	
 	@GetMapping("/editar/{id}")
 	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
-		model.addAttribute("pagamento", servicePagamento.buscarPorId(id));
+		
+		Pagamento pagamento = servicePagamento.buscarPorId(id);
+		
+		saldoAntigo = pagamento.getAluno().getSaldo();
+		pagamentoAntigo = pagamento.getValor();
+		
+		model.addAttribute("pagamento", pagamento);
+		model.addAttribute("aluno", pagamento.getAluno());
+		model.addAttribute("saldo", pagamento.getAluno().getSaldo());
+		
 		return "/pagamento/cadastro";
 	}
 	
 	@PostMapping("/editar")
 	public String editar(Pagamento pagamento, RedirectAttributes attr) {
+		
+		Aluno aluno = pagamento.getAluno();
+		
+		BigDecimal novoSaldo = saldoAntigo.subtract(pagamentoAntigo);
+		novoSaldo = novoSaldo.add(pagamento.getValor());
+		
+		aluno.setSaldo(novoSaldo);
+		
+		serviceAluno.editar(aluno);
 		servicePagamento.editar(pagamento);
 		attr.addFlashAttribute("success", "Pagamento editado com sucesso.");
 		return "redirect:/pagamentos/cadastrar";
@@ -119,10 +140,10 @@ public class PagamentoController {
 		
 		Pagamento pagamento = servicePagamento.buscarPorId(id);
 		
-		Aluno aluno = serviceAluno.buscarPorId(pagamento.getAluno().getId());
+		Aluno aluno = pagamento.getAluno();
 		
 		BigDecimal saldoAtual = pagamento.getAluno().getSaldo();
-		saldoAtual = saldoAtual.add(pagamento.getValor());
+		saldoAtual = saldoAtual.subtract(pagamento.getValor());
 		
 		aluno.setSaldo(saldoAtual);	
 		serviceAluno.editar(aluno);

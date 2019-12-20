@@ -9,7 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
@@ -19,6 +21,8 @@ import org.springframework.format.annotation.NumberFormat.Style;
 @Table(name = "ALUNOS")
 public class Aluno extends AbstractEntity<Long>{
 
+	@NotBlank(message = "Informe um nome.")
+	@Size(max = 255, min = 3, message = "O nome deve estar entre {min} e {max} caracteres.")
 	@Column(name = "nome", nullable = false, unique = true)
 	private String nome;
 	
@@ -27,7 +31,7 @@ public class Aluno extends AbstractEntity<Long>{
 	@JoinColumn(name = "turma_id_fk")
 	private Turma turma;
 	
-	@NotNull
+	@NotNull(message = "Selecione um turno.")
 	@ManyToOne
 	@JoinColumn(name = "turno_id_fk")
 	private Turno turno;

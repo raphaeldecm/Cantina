@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.ifrn.edu.boot.dao.AlunoDao;
 import br.ifrn.edu.boot.model.Aluno;
 import br.ifrn.edu.boot.model.Compra;
+import br.ifrn.edu.boot.model.Pagamento;
 import br.ifrn.edu.boot.model.Turma;
 
 @Service @Transactional(readOnly = false)
@@ -45,14 +46,10 @@ public class AlunoServiceImpl implements AlunoService{
 
 	@Override
 	public boolean alunoTemCompra(Long id) {
-		List<Compra> compras = buscarPorId(id).getCompras(); 
-		
-		for(Object o : compras){
-			if(((Compra)o).getSituacao()) {
-				return true;
-			}
+		if(buscarPorId(id).getCompras().isEmpty()) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -69,5 +66,13 @@ public class AlunoServiceImpl implements AlunoService{
 			}
 		}
 		return alunosTurma;
+	}
+
+	@Override
+	public boolean alunoTemPagamento(Long id) {
+		if(buscarPorId(id).getPagamentos().isEmpty()) {
+			return false;
+		}
+		return true;
 	}
 }

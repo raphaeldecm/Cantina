@@ -19,6 +19,8 @@ public interface AlunoService {
 
 	boolean alunoTemCompra(Long id);
 	
+	boolean alunoTemPagamento(Long id);
+	
 	public List<Aluno> buscarTodosPorTurma(Turma turma);
 	
 }

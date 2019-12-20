@@ -28,20 +28,30 @@
 	                  
 	            <form th:action="${aluno.id == null} ? @{/alunos/salvar} : @{/alunos/editar}" 
 	                  th:object="${aluno}" method="POST">
+	                  
+	                  <div th:replace="fragments/validacao :: validacao"></div>
+	                  
 	                <div class="form-row">
 	                    <div class="form-group col-md-10">
 	                        <label for="nome">Aluno</label>
 	                        <input type="text" class="form-control" id="nome"
 	                               placeholder="Nome Aluno" autofocus="autofocus" th:field="*{nome}"
-	                               th:value="${aluno.nome}"/>
+	                               th:value="${aluno.nome}" th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'" />
+	                        <div class="invalid-feedback">
+	                        	<span th:errors="*{nome}"></span>
+	                        </div>
 	                    </div>
 	                    <div class="form-group col-md-4">
 	                        <label for="turno">Turno</label>
-	                        <select id="turno" class="form-control" th:field="*{turno}">
+	                        <select id="turno" class="form-control" th:field="*{turno}"
+	                        	th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'">
 	                            <option value="">Selecione</option>
 	                            <option th:each="d : ${turnos}" 
 	                                    th:value="${d.id}" th:text="${d.nome}">Administração</option>
 	                        </select>
+	                        <div class="invalid-feedback">
+	                        	<span th:errors="*{turno}"></span>
+	                        </div>
 	                    </div>
 	                    <div class="form-group col-md-4">
 	                        <label for="turma">Turma</label>
@@ -53,8 +63,7 @@
 	                    </div>
 	                    <div class="form-group col-md-2">
 	                        <label for="saldo">Saldo</label>
-	                        <input type="text" class="form-control" id="saldo"
-	                               data-mask="#.##0,00" data-mask-reverse="true" placeholder="0.00" 
+	                        <input type="text" class="form-control" id="saldo" placeholder="0,00" 
 	                               th:field="*{saldo}"/>
 	                    </div>
 	                </div>

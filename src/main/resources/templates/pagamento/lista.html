@@ -11,10 +11,10 @@
 	                <ul class="navbar-nav mr-auto">
 	                    <li class="nav-item active">
 	                        <i class="oi oi-caret-right"></i>
-	                        <span>Listar Pagamentos por Aluno</span>
+	                        <span>Listar Pagamentos</span>
 	                    </li>
 	                </ul>
-	                <a class="btn btn-primary btn-md" href="/compra/listar" role="button">
+	                <a class="btn btn-primary btn-md" href="/pagamentos/cadastrar" role="button">
 	                    <span class="oi oi-spreadsheet" title="Listar" aria-hidden="true"></span>
 	                    <span>Cadastrar Pagamento</span>
 	                </a>
@@ -58,6 +58,8 @@
 	                </table>
 	            </div>
 	        </div>
+	
+			<div th:replace="fragments/modal :: modal"></div>
 	
 	</section>
 

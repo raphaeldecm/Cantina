@@ -3,11 +3,9 @@ package br.ifrn.edu.boot.controller;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindException;
@@ -60,19 +58,11 @@ public class AlunoController {
 		if(result.hasErrors() || aluno.getNome().equals("") || aluno.getTurma() == null || aluno.getTurno() == null) {
 			attr.addFlashAttribute("fail", "Aluno não cadastrado. Todos os campos deste formulário são obrigatórios.");
 			return "redirect:/alunos/cadastrar";
-		} else {
-			try {
-				serviceAluno.salvar(aluno);
-				attr.addFlashAttribute("success", "Aluno cadastrado com sucesso");
-				return "redirect:/alunos/cadastrar";
-			} catch (ConstraintViolationException ex){
-				attr.addFlashAttribute("fail", "Aluno não cadastrado."+ex.getMessage());
-				return "redirect:/alunos/cadastrar";
-			} catch (DataIntegrityViolationException e) {
-				attr.addFlashAttribute("fail", "Aluno não cadastrado. Já existe um aluno cadastrado com este nome");
-				return "redirect:/alunos/cadastrar";
-			}
 		}
+		
+		serviceAluno.salvar(aluno);
+		attr.addFlashAttribute("success", "Aluno cadastrado com sucesso");
+		return "redirect:/alunos/cadastrar";
 	}
 	
 //	@ModelAttribute("turmas")
@@ -101,13 +91,22 @@ public class AlunoController {
 	}
 		
 	@PostMapping("/editar")
-	public String editar(Aluno aluno, RedirectAttributes attr) {
-		serviceAluno.editar(aluno);
+	public String editar(@Valid Aluno aluno, BindingResult result, RedirectAttributes attr) {
 		if(aluno.getSaldo() == null) {
 			aluno.setSaldo(BigDecimal.ZERO);
 		}
-		attr.addFlashAttribute("success", "Aluno editado com sucesso.");
-		return "redirect:/alunos/cadastrar";
+		if(result.hasErrors()) {// || aluno.getNome().equals("") || aluno.getTurma() == null || aluno.getTurno() == null) {
+			attr.addFlashAttribute("fail", "Aluno não editado. Todos os campos deste formulário são obrigatórios.");
+			return "redirect:/alunos/cadastrar";
+		} else {
+		
+			serviceAluno.editar(aluno);
+			if(aluno.getSaldo() == null) {
+				aluno.setSaldo(BigDecimal.ZERO);
+			}
+			attr.addFlashAttribute("success", "Aluno editado com sucesso.");
+			return "redirect:/alunos/cadastrar";
+		}
 	}
 	
 	@GetMapping("/excluir/{id}")
@@ -115,6 +114,8 @@ public class AlunoController {
 		
 		if (serviceAluno.alunoTemCompra(id)) {
 			model.addAttribute("fail", "Aluno não removido. Possui compra(s) vinculada(s).");
+		} else if(serviceAluno.alunoTemPagamento(id)) {
+			model.addAttribute("fail", "Aluno não removido. Possui pagamentos(s) vinculado(s).");
 		} else {
 			serviceAluno.excluir(id);
 			model.addAttribute("success", "Aluno excluído com sucesso.");

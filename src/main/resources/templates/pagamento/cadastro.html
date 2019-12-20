@@ -14,7 +14,7 @@
 	                        <span>Cadastrar Pagamento</span>
 	                    </li>
 	                </ul>
-	                <a class="btn btn-primary btn-md" href="/compra/listar" role="button">
+	                <a class="btn btn-primary btn-md" href="/pagamentos/listar" role="button">
 	                    <span class="oi oi-spreadsheet" title="Listar" aria-hidden="true"></span>
 	                    <span>Listar Pagamentos</span>
 	                </a>
@@ -26,12 +26,12 @@
 	        <div th:replace="fragments/alert"></div>
 		        <div class="formCadastro ">
 		            
-		            <form th:action="${pagamento.id == null} ? @{/pagamentos/salvar} : @{/pagamentos/editar}"
+		            <form th:action="${pagamento.data == null} ? @{/pagamentos/salvar} : @{/pagamentos/editar}"
 		            th:object="${pagamento}" method="POST">
 		                <div class="form-group row justify-content-center">
 							<h4 for="nome">Nome do Aluno</h4>
 		                    <div class="col-4">
-		                        <select id="alunoPagamento" class="form-control" th:field="*{aluno}">
+		                        <select id="aluno" class="form-control" th:field="*{aluno}">
 		                            <option value="0">Selecione</option>
 		                            <option th:each="d : ${alunos}" 
 		                                    th:value="${d.id}" 
@@ -43,12 +43,8 @@
 		                    </div>
 		                    <h4 for="saldoAluno">Saldo</h4>
 		                    <div class="col-2">
-		                        <input type="text" class="form-control" id="saldoPagamento" 
-		                        th:value="${aluno?.saldo}" data-mask="#.##0,00" data-mask-reverse="true" 
-		                        name="saldo" readonly/>
-		                        <div class="invalid-feedback">
-		
-		                        </div>
+		                        <input type="text" class="form-control" id="saldo" 
+		                        th:value="${saldo}" name="saldo" placeholder="0,00" readonly/>
 		                    </div>
 		                </div>
 		                <div class="row"><br/><br/></div>
